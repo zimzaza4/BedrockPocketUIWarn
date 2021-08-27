@@ -1,0 +1,5 @@
+name: BedrockPocketUIWarn
+version: '${project.version}'
+main: cn.zimzaza4.bedrockpocketuiwarn.BedrockPocketUIWarn
+softdepend: [ Floodgate ]
+authors: [ zimzaza4 ]
