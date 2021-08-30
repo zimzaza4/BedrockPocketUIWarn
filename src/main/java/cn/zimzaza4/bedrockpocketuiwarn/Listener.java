@@ -19,13 +19,29 @@ public class Listener implements org.bukkit.event.Listener {
 
     public void Join(PlayerJoinEvent event) {
          UUID uuid = event.getPlayer().getUniqueId();
-         if (FloodgateApi.getInstance().isFloodgatePlayer(uuid)) {
-             FloodgatePlayer fp = FloodgateApi.getInstance().getPlayer(uuid);
+         FloodgateApi fapi = FloodgateApi.getInstance();
+         if (fapi.isFloodgatePlayer(uuid)) {
+
+             FloodgatePlayer fp = fapi.getPlayer(uuid);
+
              if (fp.getUiProfile() == UiProfile.POCKET) {
+
                  FileConfiguration config = BedrockPocketUIWarn.inst.getConfig();
-                 if (config.getBoolean("kick.kick-player", false)) {
+
+                 if (BedrockPocketUIWarn.inst.ConfigWarnType == BedrockPocketUIWarn.WarnType.KICK)
+
                      event.getPlayer().kickPlayer("kick.kick-message");
-                 } else {
+
+                 else if (BedrockPocketUIWarn.inst.ConfigWarnType == BedrockPocketUIWarn.WarnType.MESSAGE)
+
+                     new BukkitRunnable(){
+                         @Override
+                         public void run() {
+                             event.getPlayer().sendMessage(config.getString("message.message"));
+                         }
+                     }.runTaskLater(BedrockPocketUIWarn.inst, config.getInt("message.message-delay", 60));
+
+                 else
                      new BukkitRunnable() {
                          @Override
                          public void run() {
@@ -34,9 +50,7 @@ public class Listener implements org.bukkit.event.Listener {
                                      .button1(config.getString("form.button1"))
                                      .button2(config.getString("form.button2")));
                          }
-                     }.runTaskLater(BedrockPocketUIWarn.inst, 60);
-
-                 }
+                     }.runTaskLater(BedrockPocketUIWarn.inst, config.getInt("form.form-delay", 60));
              }
          }
      }

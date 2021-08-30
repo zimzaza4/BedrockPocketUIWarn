@@ -1,5 +1,11 @@
+# "kick" "form" "message"
+warn-type: "form"
+
+message:
+  message: "§c[WARN] 请用经典界面 而不是Pocket 界面"
+  message-delay: 60
+
 kick:
-  kick-player: false
   kick-message: "用了经典界面再回来"
 
 form:
@@ -7,3 +13,4 @@ form:
   content: "不要使用Pocket UI! 请更换为经典UI"
   button1: "ok"
   button2: "no"
+  form-delay: 60
